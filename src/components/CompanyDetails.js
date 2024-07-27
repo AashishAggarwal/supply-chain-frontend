@@ -4,25 +4,23 @@ import { useParams, Route, Routes, Link, useNavigate } from 'react-router-dom';
 import { Button, Typography, List, Card, CardContent, Container, CircularProgress } from '@mui/material';
 import LocationDetails from './LocationDetails';
 import { motion } from 'framer-motion';
-import { apiEndpoints, axiosConfig } from './api_endpoints';
+import { apiEndpoints, axiosConfig } from '../constants/config';
 
 function CompanyDetails({ companyName }) {
     const { companyId } = useParams();
     const [companyDetails, setCompanyDetails] = useState([]);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchCompanyDetails = async () => {
-            console.log(`Fetching details for company ID: ${companyId}`);
-            try {
-                const response = await axios.get(apiEndpoints.baseURL + `companies/${companyId}`, axiosConfig);
-                console.log('Company details:', response.data);
-                setCompanyDetails(response.data);
-            } catch (error) {
-                console.error("There was an error fetching the company details!", error);
-            }
-        };
+    const fetchCompanyDetails = async () => {
+        try {
+            const response = await axios.get(apiEndpoints.baseURL + `companies/${companyId}`, axiosConfig);
+            setCompanyDetails(response.data);
+        } catch (error) {
+            console.error("There was an error fetching the company details!", error);
+        }
+    };
 
+    useEffect(() => {
         fetchCompanyDetails();
     }, [companyId]);
 
@@ -44,24 +42,24 @@ function CompanyDetails({ companyName }) {
     return (
         <Container>
             <Button
-    variant="outlined"
-    size="large"
-    onClick={() => navigate("/companies")}
-    sx={{
-        marginBottom: 2,
-        marginTop: 4,
-        backgroundColor: '#066ebe',
-        color: 'white',
-        borderColor: '#066ebe',
-        '&:hover': {
-            backgroundColor: 'white',
-            color: '#066ebe',
-            borderColor: 'black',
-        },
-    }}
->
-    Company List
-</Button>
+                variant="outlined"
+                size="large"
+                onClick={() => navigate("/companies")}
+                sx={{
+                    marginBottom: 2,
+                    marginTop: 4,
+                    backgroundColor: '#066ebe',
+                    color: 'white',
+                    borderColor: '#066ebe',
+                    '&:hover': {
+                        backgroundColor: 'white',
+                        color: '#066ebe',
+                        borderColor: 'black',
+                    },
+                }}
+            >
+                Company List
+            </Button>
             <Typography variant="h4" component="h1" gutterBottom align="center">
                 {companyName}
             </Typography>

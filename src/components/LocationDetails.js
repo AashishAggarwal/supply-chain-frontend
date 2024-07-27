@@ -7,7 +7,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css';
-import { apiEndpoints, axiosConfig } from './api_endpoints';
+import { apiEndpoints, axiosConfig } from '../constants/config';
 
 function LocationDetails() {
     const { companyId, locationId } = useParams();
@@ -15,21 +15,19 @@ function LocationDetails() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const fetchLocationDetails = async () => {
-            console.log(`Fetching details for location ID: ${locationId} in company ID: ${companyId}`);
-            try {
-                const response = await axios.get(apiEndpoints.baseURL + `companies/${companyId}/locations/${locationId}`, axiosConfig);
-                console.log('Location details:', response.data);
-                setLocation(response.data);
-            } catch (error) {
-                console.error("There was an error fetching the location details!", error);
-                setError("There was an error fetching the location details!");
-            } finally {
-                setLoading(false);
-            }
-        };
+    const fetchLocationDetails = async () => {
+        try {
+            const response = await axios.get(apiEndpoints.baseURL + `companies/${companyId}/locations/${locationId}`, axiosConfig);
+            setLocation(response.data);
+        } catch (error) {
+            console.error("There was an error fetching the location details!", error);
+            setError("There was an error fetching the location details!");
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchLocationDetails();
     }, [companyId, locationId]);
 

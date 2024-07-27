@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { InputAdornment, TextField, Table, TableHead, TableBody, TableRow, TableCell, Container, Typography, Paper } from '@mui/material';
+import { TextField, Table, TableHead, TableBody, TableRow, TableCell, Container, Typography, Paper } from '@mui/material';
 import { motion } from 'framer-motion';
-import SearchIcon from '@mui/icons-material/Search';
-import { apiEndpoints, axiosConfig } from './api_endpoints';
+import { apiEndpoints, axiosConfig } from '../constants/config';
 
 const CompanyList = () => {
     const [companies, setCompanies] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [companyName, setCompanyName] = useState('');
     const [filteredCompanies, setFilteredCompanies] = useState([]);
 
     const fetchCompanyList = async () => {
@@ -17,7 +15,6 @@ const CompanyList = () => {
             const response = await axios.get(apiEndpoints.baseURL + 'companies', axiosConfig);
             setCompanies(response.data);
             setFilteredCompanies(response.data);
-            console.log(response.data);
         } catch (error) {
             console.error("There was an error fetching the companies!", error);
         }
@@ -62,7 +59,7 @@ const CompanyList = () => {
                             >
                                 <TableRow>
                                     <TableCell align="center">
-                                        <Link to={`/companies/${company.company_id}`} onClick={() => setCompanyName(company.name)} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                        <Link to={`/companies/${company.company_id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                                             <Typography variant="body1" sx={{ '&:hover': { color: 'primary.main', fontWeight: 'bold' } }}>
                                                 {company.name} <br />
                                                 {company.address}

@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import LocationDetails from './LocationDetails';
-import { apiEndpoints } from './api_endpoints';
+import { apiEndpoints } from '../constants/config';
 
 // Create a mock instance of axios
 const mock = new MockAdapter(axios);
